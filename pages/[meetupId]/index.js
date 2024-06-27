@@ -35,13 +35,7 @@ export const getStaticProps = async (context) => {
     console.log(context)
     console.log("================")
 
-    // const db = MongoConnect()
-
-    // await client.connect()
-    // console.log("connection eastablish")
-    // const db = client.db();
-
-    const meetupsCollection = await MongoConnect( {operation:"findOne"} )
+    const meetupsCollection = await MongoConnect( {operation:"findOne", id:meetupId} )
     console.log(typeof(meetupId), meetupId)
 
     // console.log('String converted to ObjectId:', objectId, typeof(objectId));

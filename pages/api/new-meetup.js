@@ -15,11 +15,9 @@ const handler = async (req, res) => {
         //     const db = client.db();
 
         //     const meetupsCollection = db.collection('meetups');
-            const meetupsCollection = await MongoConnect({operation:"insertOne"})
+            const meetupsCollection = await MongoConnect({operation:"insertOne", payload : postPayload})
 
             const result = await meetupsCollection.insertOne(postPayload);
-            const docs = meetupsCollection.find()
-            console.log(docs)
             res.status(210).json({
                 'msg': 'inserted',
                 'res': result
@@ -33,7 +31,7 @@ const handler = async (req, res) => {
                 msg:"internal server Error"
             })
         } finally {
-            client.close();
+            //client.close();
         }
     }
 

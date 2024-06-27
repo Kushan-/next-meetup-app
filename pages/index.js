@@ -40,18 +40,7 @@ export const getStaticProps = async () => {
     const meetupsCollection = await MongoConnect( {operation:"find"} )
 
     const documents = await meetupsCollection.find({}).toArray()
-    // .then(docs=>{
-    //     console.log(docs)
-    //     for (let doc in docs){
-    //         console.log(doc)
-    //     }
-    // }).catch(err=>{
-    //     console.error(err)
-    // })
 
-    // const result = meetupsCollection.find();
-   // console.log("===========meetupsCollection========")
-   // console.log(documents)
     const update_meetupCollection = documents.map ( ( doc) => ( {...doc, id:doc._id.toString() , _id:doc._id.toString()}))
     console.log(update_meetupCollection)
    // console.log(update_meetupCollection)

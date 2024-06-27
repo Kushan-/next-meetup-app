@@ -1,7 +1,7 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 
-export const MongoConnect = async(operation) => {
-    console.log( operation )
+export const MongoConnect = async(params) => {
+    console.log( params )
     const mongoPasscode = process.env['MONGODB_PASS'];
     const mongoUserName = process.env['DB_USER'];
 
@@ -15,6 +15,7 @@ export const MongoConnect = async(operation) => {
     //     // return document
     // }
     // if(params.operation === "insertOne"){
+    // const result = await meetupsCollection.insertOne(params.payload);
     //     // return document
     // }
     // if(params.operation === "find"){
@@ -24,7 +25,10 @@ export const MongoConnect = async(operation) => {
     //     return meetupsDocs
     // }
     // if(params.operation === "findOne"){
-    //     // return document
+    //     // return const selectedMeetup = await meetupsCollection.findOne({_id: new ObjectId(params.meetupId),});
+    // }
+    // if(params.operation === "findWithProjection"){
+    //     const meetupsDocs = await meetupsCollection.find({}, { projection: { _id: 1 } }).toArray();
     // }
 }
 
