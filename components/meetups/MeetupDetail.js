@@ -1,7 +1,7 @@
 import classes from './MeetupDetail.module.css'
 
 const MeetupDetail = (props) => {
-  console.log("=>>>>>>>>>> render meetupDetails")
+
   return (
     <section className={classes.detail}>
         <img src='' alt=''/>

@@ -24,8 +24,8 @@ function NewMeetupForm(props) {
       description: enteredDescription,
     };
 
-    console.log(props)
-    console.log(meetupData)
+    //console.log(props)
+    //console.log(meetupData)
 
     props.onAddMeetupHandler(meetupData);
     // props.onAddMeetup(meetupData);

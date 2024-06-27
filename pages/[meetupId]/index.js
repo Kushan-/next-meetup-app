@@ -1,38 +1,33 @@
-import MeetupDetail from '../../components/meetups/MeetupDetail'
+import { ObjectId } from 'mongodb'
 
-const MeetupDetails = () => {
+import MeetupDetail from '../../components/meetups/MeetupDetail'
+import { MongoConnect } from '../api/mongo-connect';
+
+const MeetupDetails = (props) => {
     return (
         <MeetupDetail
-            image='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg'
-            title='First Meetup'
-            address='Some Street 5, Some City'
-            description='This is a first meetup'
+            image={props.meetupData.image}
+            title={props.meetupData.title}
+            address={props.meetupData.address}
+            description={props.meetupData.description}
         />
     )
 }
 
 export const getStaticPaths = async () => {
-    console.log("->>>>>>>>>> getStaticPATH")
+    const meetupsCollection = await MongoConnect( {operation:"findWithProjection"})
 
+    const meetupsDocs = await meetupsCollection.find({}, { projection: { _id: 1 } }).toArray();
+
+    // console.log(meetupsDocs.map(doc => ({ params: { meetupId: doc._id.toString() } })))
+    // client.close()
     return {
         fallback: false,
-        paths: [
-            {
-                params: {
-                    meetupId: 'm1',
-                },
-            },
-            {
-                params: {
-                    meetupId: 'm2',
-                },
-            },
-        ],
+        paths: meetupsDocs.map(doc => ({ params: { meetupId: doc._id.toString() } }))
     };
 }
 
 export const getStaticProps = async (context) => {
-    console.log("->>>>>>>>>> getStaticPROPSS")
 
     const meetupId = context.params.meetupId
 
@@ -40,16 +35,34 @@ export const getStaticProps = async (context) => {
     console.log(context)
     console.log("================")
 
+    // const db = MongoConnect()
+
+    // await client.connect()
+    // console.log("connection eastablish")
+    // const db = client.db();
+
+    const meetupsCollection = await MongoConnect( {operation:"findOne"} )
+    console.log(typeof(meetupId), meetupId)
+
+    // console.log('String converted to ObjectId:', objectId, typeof(objectId));
+    const selectedMeetup = await meetupsCollection.findOne({
+        _id: new ObjectId(meetupId),
+    });
+    console.log("======== document found ===============")
+    console.log(selectedMeetup)
+    console.log("======== document found ===============")
+    
+    // client.close()
+
     return {
         props: {
-            meetupData: {
-                image:
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1280px-Stadtbild_M%C3%BCnchen.jpg',
-                id: meetupId,
-                title: 'First Meetup',
-                address: 'Some Street 5, Some City',
-                description: 'This is a first meetup',
-            },
+            meetupData:{
+                title:selectedMeetup.title,
+                address:selectedMeetup.address,
+                image: selectedMeetup.image,
+                description: selectedMeetup.description
+
+            }
         },
     }
 }
